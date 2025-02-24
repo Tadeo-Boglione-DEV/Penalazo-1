@@ -1,0 +1,211 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+body {
+    background-color: #60c0f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.home-button {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 50px;
+    background-color: #60c0f9;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.progress {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    transform: scaleY(1);
+    transform-origin: bottom;
+    transition: transform 3s linear;
+}
+
+.home-button:active .progress {
+    transform: scaleY(0);
+}
+
+.home-button img {
+    width: 40px;
+    height: 40px;
+    position: relative;
+    z-index: 2;
+}
+.login-container {
+    background-color: #e0e0e0;
+    width: 75%;
+    max-width: 1950px;
+    height: 600px;
+    display: flex;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+.image-section {
+    flex: 1;
+    background: url('../img/henry.jpg') center/cover no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.form-section {
+    flex: 1;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    top: 30px;
+}
+
+.ball-icon {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: url('./img/logo.png') center/cover;
+    border-radius: 50%;
+    left:46%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+
+h2 {
+    color: #333;
+    font-size: 28px;
+    margin-bottom: 10px;
+    position: absolute;
+    top: 10px; /* Se subió más arriba */
+}
+.tab-container {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    position: absolute;
+    top: 90px; /* Se subió más arriba */
+}
+.tab {
+    font-size: 18px;
+    cursor: pointer;
+    font-weight: bold;
+    color: black;
+    text-decoration: none;
+}
+.tab:hover {
+    text-decoration: none; /* Sin subrayado al pasar el cursor */
+}
+.active-tab {
+    border-bottom: 2px solid black;
+    padding-bottom: 5px;
+}
+.register-no-underline {
+    color: black;
+    font-weight: bold;
+    text-decoration: none; /* Sin subrayado */
+    cursor: pointer;
+}
+.register-no-underline:hover {
+    text-decoration: none; /* Sin subrayado en hover */
+}
+.input-group {
+position: relative;
+margin-bottom: 0px; /* Reducido para acercar los inputs */
+margin-top: 40px; /* Se bajó un poco el primero */
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-bottom: 2px solid #333;
+    outline: none;
+    font-size: 16px;
+    background: transparent;
+}
+.input-group .eye-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+}
+.login-btn {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+    width: 80%;
+    align-self: center;
+    margin-top: 60px; /* Se bajó un poco más */
+    margin-left: 10%; /* Desplaza el botón hacia la derecha */
+}
+.login-btn:hover {
+    background-color: #2980b9;
+}
+.register-link {
+    margin-top: 30px; /* Se bajó un poco más */
+    text-align: center;
+    font-size: 14px;
+}
+.register-text {
+    cursor: pointer;
+    font-weight: bold;
+    color: #3498db; /* Celeste */
+}
+.register-text:hover {
+    text-decoration: underline;
+}
+
+.success-message {
+    background-color: #d4edda; /* Verde claro */
+    color: #155724; /* Verde oscuro */
+    border: 1px solid #c3e6cb; /* Borde verde */
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    text-align: center;
+}
+
+.error-message {
+    background-color: #ff1717;
+    color: white;
+    padding: 12px;
+    text-align: center;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    margin-top: 15px; /* Ajusta el margen superior para bajarlo */
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Espacio entre el icono y el texto */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.error-message span {
+    font-size: 18px; /* Tamaño del icono */
+}

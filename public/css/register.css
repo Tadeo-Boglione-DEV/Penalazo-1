@@ -1,0 +1,194 @@
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #c0392b;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .home-button {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 50px;
+            background-color: red;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .progress {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            transform: scaleY(1);
+            transform-origin: bottom;
+            transition: transform 3s linear;
+        }
+
+        .home-button:active .progress {
+            transform: scaleY(0);
+        }
+
+        .home-button img {
+            width: 40px;
+            height: 40px;
+            position: relative;
+            z-index: 2;
+        }
+        .register-container {
+            background-color: #e0e0e0;
+            width: 75%;
+            max-width: 1950px;
+            height: 600px;
+            display: flex;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .form-section {
+            flex: 1;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            padding-top: 150px;
+        }
+        h2 {
+display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    position: absolute;
+    top: 50px; /* Se subió más arriba */
+        }
+        
+        .tab-container {
+            display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    position: absolute;
+    top: 125px; /* Se subió más arriba */
+        }
+        .tab {
+            font-size: 18px;
+            cursor: pointer;
+            font-weight: bold;
+            color: black;
+            text-decoration: none;
+        }
+        .active-tab {
+            border-bottom: 2px solid black;
+            padding-bottom: 5px;
+        }
+        .input-group {
+    position: relative;
+    margin-bottom:25px; /* Espacio entre inputs */
+    margin-top: 0px; /* Ajusta este valor según la altura deseada */
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-bottom: 2px solid #333;
+    outline: none;
+    font-size: 16px;
+    background: transparent;
+}
+
+.input-group:first-of-type {
+    margin-top: 50px; /* Ajusta este valor según lo que necesites */
+}
+
+        .eye-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            width: 25px;
+            height: 25px;
+        }
+        .register-btn {
+            background-color: red;
+            color: white;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+            width: 80%;
+            align-self: center;
+            margin-top: 20px; /* Se bajó un poco más */
+            margin-left: 10%; /* Desplaza el botón hacia la derecha */
+        }
+        
+        .register-btn:hover {
+            background-color: darkred;
+        }
+        .login-link {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .login-text {
+            cursor: pointer;
+            font-weight: bold;
+            color: red;
+        }
+        .login-text:hover {
+            text-decoration: underline;
+        }
+        .image-section {
+            flex: 1;
+            background: url('../img/puyol.jpg') center/cover no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+.success-message {
+    background-color: #d4edda; /* Verde claro */
+    color: #155724; /* Verde oscuro */
+    border: 1px solid #c3e6cb; /* Borde verde */
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    text-align: center;
+}
+
+.error-message {
+    background-color: #ff1717;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    margin-top: 15px; /* Ajusta el margen superior para bajarlo */
+}
+
+
+.password-error {
+    color: #ff1717;
+    font-size: 12px;
+    margin-top: 5px;
+    text-align: left;
+    display: block;
+}
+
+

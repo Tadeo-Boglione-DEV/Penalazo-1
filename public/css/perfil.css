@@ -1,0 +1,45 @@
+.profile-container {
+    text-align: center;
+    background: rgba(30, 30, 30, 0.5); /* Más transparencia para el efecto borroso */
+    padding: 20px;
+    width: 50%;
+    margin: 50px auto;
+    border-radius: 20px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px); /* Efecto borroso */
+    -webkit-backdrop-filter: blur(10px); /* Para compatibilidad con Safari */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Borde sutil */
+}
+
+.profile-info {
+    margin-top: 20px;
+    color: white;
+}
+
+.profile-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #60c0f9;
+    box-shadow: 0px 0px 10px rgba(96, 192, 249, 0.8);
+}
+
+.logout-btns {
+    display: inline-block;
+    background-color: #ff4d4d;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 10px;
+    margin-top: 15px;
+    transition: background 0.3s, transform 0.2s;
+    font-weight: bold;
+    box-shadow: 0px 4px 10px rgba(255, 77, 77, 0.5);
+}
+
+.logout-btns:hover {
+    background-color: #cc0000;
+    transform: scale(1.05);
+}
+
