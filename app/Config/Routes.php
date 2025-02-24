@@ -52,6 +52,7 @@ $routes->options('(:any)', function() {
         ->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE')
         ->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 });
+$routes->get('juego', 'EquiposController::juego');
 
 
 /*

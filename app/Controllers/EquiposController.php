@@ -68,13 +68,24 @@ class EquiposController extends ResourceController
     
         $equipoModel = new EquipoModel();
         $resultados = $equipoModel
-            ->select('nombre, pais') // No uses DISTINCT aquí
-            ->like('LOWER(nombre)', strtolower($nombre), 'both') // Asegura coincidencia sin importar mayúsculas/minúsculas
-            ->distinct() // Aplica DISTINCT correctamente
+            ->select('nombre, pais, imagen') // 👈 Asegúrate de incluir 'pais'
+            ->like('LOWER(nombre)', strtolower($nombre), 'both')
+            ->distinct()
             ->findAll();
+    
+        foreach ($resultados as &$equipo) {
+            if (!empty($equipo['imagen']) && file_exists(FCPATH . 'uploads/equipos/' . $equipo['imagen'])) {
+                $equipo['imagen'] = base_url('uploads/equipos/' . $equipo['imagen']);
+            } else {
+                $equipo['imagen'] = base_url('uploads/equipos/default.jpg');
+            }
+        }
     
         return $this->response->setJSON($resultados);
     }
-    
 
+    
+    public function juego(){
+        return view('juego');
+    }
 }

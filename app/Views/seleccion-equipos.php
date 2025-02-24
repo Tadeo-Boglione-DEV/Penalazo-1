@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Selección de Equipos</title>
-    <link rel="stylesheet" href="/styles.css">
-    <script defer src="/script.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -77,8 +75,11 @@ document.addEventListener("DOMContentLoaded", function() {
     const inputBusqueda = document.getElementById("busqueda-equipo");
     const listaSugerencias = document.getElementById("sugerencias");
     const botonListo = document.getElementById("btn-listo");
+    const tituloJugador = document.getElementById("titulo-jugador");
 
-    let equipoSeleccionado = "";
+    let equipoJugador1 = "";
+    let equipoJugador2 = "";
+    let turnoJugador = 1; // 1 = Jugador 1, 2 = Jugador 2
 
     inputBusqueda.addEventListener("input", function() {
         let query = inputBusqueda.value.trim();
@@ -92,8 +93,6 @@ document.addEventListener("DOMContentLoaded", function() {
                     return response.json();
                 })
                 .then(data => {
-                    console.log("📌 Equipos recibidos:", data); // 👈 Verifica que lleguen datos
-
                     listaSugerencias.innerHTML = "";
                     listaSugerencias.style.display = data.length > 0 ? "block" : "none";
 
@@ -104,18 +103,34 @@ document.addEventListener("DOMContentLoaded", function() {
 
                     data.forEach(equipo => {
                         let div = document.createElement("div");
-                        let banderaSrc = equipo.pais 
-                            ? `/img/banderas/${equipo.pais.toLowerCase()}.png`
-                            : "https://via.placeholder.com/20x15"; // Imagen por defecto
 
-                        div.innerHTML = `<img src="${banderaSrc}" class="flag" onerror="this.src='https://via.placeholder.com/20x15';"> 
-                                         <strong>${equipo.nombre}</strong> - ${equipo.pais || "Desconocido"}`;
+                        // 📌 URL del escudo del equipo
+                        let escudoSrc = equipo.imagen 
+                            ? equipo.imagen  
+                            : "/uploads/equipos/default.jpg"; 
+
+                        let img = document.createElement("img");
+                        img.src = escudoSrc;
+                        img.classList.add("escudo");
+                        img.style.width = "30px";
+                        img.style.height = "30px";
+                        img.style.marginRight = "10px";
+
+                        // 🚨 Oculta imágenes rotas
+                        img.onerror = function() {
+                            this.style.display = "none";
+                        };
+
+                        div.appendChild(img);
+                        div.innerHTML += `<strong>${equipo.nombre}</strong>, ${equipo.pais || "Desconocido"}`;
+
                         div.addEventListener("click", function() {
-                            inputBusqueda.value = equipo.nombre;
-                            equipoSeleccionado = equipo.nombre;
+                            // ✅ Nombre y país en el input
+                            inputBusqueda.value = `${equipo.nombre}, ${equipo.pais}`;
                             listaSugerencias.style.display = "none";
                             botonListo.disabled = false;
                         });
+
                         listaSugerencias.appendChild(div);
                     });
                 })
@@ -130,14 +145,33 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+    // 📌 Lógica para cambiar de jugador y luego iniciar el juego
+    botonListo.addEventListener("click", function() {
+        let equipoSeleccionado = inputBusqueda.value.trim();
+        if (turnoJugador === 1) {
+            equipoJugador1 = equipoSeleccionado;
+            turnoJugador = 2;
+            tituloJugador.innerText = "Jugador 2, elige tu equipo";
+            inputBusqueda.value = "";
+            botonListo.disabled = true;
+        } else {
+            equipoJugador2 = equipoSeleccionado;
+
+            // 📌 Ir a la vista de juego con los equipos seleccionados
+            window.location.href = `juego?equipo1=${encodeURIComponent(equipoJugador1)}&equipo2=${encodeURIComponent(equipoJugador2)}`;
+        }
+    });
+
+    // Ocultar la lista cuando se haga clic fuera
     document.addEventListener("click", function(event) {
         if (!inputBusqueda.contains(event.target) && !listaSugerencias.contains(event.target)) {
             listaSugerencias.style.display = "none";
         }
     });
 });
-
 </script>
+
+
 
 
 </body>
