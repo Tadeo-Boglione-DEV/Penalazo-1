@@ -8,53 +8,6 @@
     <link rel="stylesheet" href="./css/inicio.css">
     <link rel="shortcut icon" href="./img/logo.png">
     <title>¿Quién es Quién?</title>
-    <style>
-        /* Botones en línea y más pequeños */
-        .multiplayer-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            margin-top: 10px;
-        }
-
-        .multiplayer-buttons .play-button {
-            padding: 10px 10px;
-            font-size: 14px;
-            background-color: #00aaff;
-            border: none;
-            color: white;
-            cursor: pointer;
-            transition: 0.3s;
-            border-radius: 5px;
-        }
-
-        .multiplayer-buttons .play-button:hover {
-            background-color: #0088cc;
-        }
-
-        /* Estilo del input */
-        .room-input {
-            width: 10%;
-            padding: 8px;
-            font-size: 16px;
-            border: 2px solid #00aaff;
-            border-radius: 5px;
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        /* Minilista de códigos */
-        .room-input::placeholder {
-            color: #aaa;
-            text-align: center;
-        }
-
-        .suggested-codes {
-            margin-top: 5px;
-            font-size: 14px;
-            color: #555;
-        }
-    </style>
 </head>
 
 <body>
@@ -83,10 +36,12 @@
         <h2>Selecciona un modo de juego:</h2>
 
         <div class="game-option">
-            <h3>Equipos</h3>
-            <img src="./img/realmadrid.png" alt="Equipos" class="game-image">
-            <button class="play-button">JUGAR</button>
-        </div>
+    <h3>Equipos</h3>
+    <img src="./img/realmadrid.png" alt="Equipos" class="game-image">
+    <button class="play-button" onclick="window.location.href='<?= base_url('/seleccion-equipos') ?>'">JUGAR</button>
+    
+</div>
+
 
         <div class="game-option">
             <h3>Jugadores Retirados</h3>

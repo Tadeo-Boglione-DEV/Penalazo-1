@@ -44,8 +44,14 @@ $routes->get('subir', 'SubirController::index');
 $routes->get('equipos/subir', 'EquiposController::subirImagen');
 $routes->post('equipos/subir', 'EquiposController::subirImagen');
 $routes->post('jugadores/subir', 'JugadoresController::subirImagen');
-$routes->get('juegoLocal/seleccionarEquipo', 'JuegoLocalController::seleccionarEquipo');
-$routes->get('juegoLocal/iniciarJuego', 'JuegoLocalController::iniciarJuego');
+$routes->get('seleccion-equipos', 'EquiposController::vistaSeleccion');
+$routes->get('api/buscarEquipos', 'EquiposController::buscarEquipos');
+$routes->options('(:any)', function() {
+    return service('response')
+        ->setHeader('Access-Control-Allow-Origin', '*')
+        ->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE')
+        ->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+});
 
 
 /*

@@ -4,9 +4,15 @@ namespace App\Controllers;
 
 use App\Models\EquipoModel;
 use CodeIgniter\Controller;
+use CodeIgniter\RESTful\ResourceController;
 
-class EquiposController extends BaseController
+class EquiposController extends ResourceController
 {
+    public function vistaSeleccion()
+{
+    return view('seleccion-equipos');
+}
+
     public function subirImagen()
     {
         $equipoModel = new EquipoModel();
@@ -49,9 +55,26 @@ class EquiposController extends BaseController
                 return redirect()->to('/subir')->with('error', 'Error al guardar el equipo en la base de datos.');
             }
         }
-
-        
-
         return redirect()->back()->with('error', 'Error al subir la imagen.');
     }
+
+    public function buscarEquipos()
+    {
+        $nombre = $this->request->getGet('nombre');
+    
+        if (!$nombre) {
+            return $this->response->setJSON([]);
+        }
+    
+        $equipoModel = new EquipoModel();
+        $resultados = $equipoModel
+            ->select('nombre, pais') // No uses DISTINCT aquí
+            ->like('LOWER(nombre)', strtolower($nombre), 'both') // Asegura coincidencia sin importar mayúsculas/minúsculas
+            ->distinct() // Aplica DISTINCT correctamente
+            ->findAll();
+    
+        return $this->response->setJSON($resultados);
+    }
+    
+
 }
