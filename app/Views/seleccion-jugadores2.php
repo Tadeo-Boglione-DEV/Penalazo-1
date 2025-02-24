@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Selección de Equipos</title>
+    <title>Selección de Jugadores Actuales</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,31 +14,29 @@
         }
 
         .container {
-    max-width: 400px;
-    margin: auto;
-    position: relative; /* 👈 Agregado */
-}
+            max-width: 400px;
+            margin: auto;
+            position: relative;
+        }
 
-.suggestions {
-    position: absolute;
-    background: white;
-    color: black;
-    width: 100%;
-    border: 1px solid #ccc;
-    max-height: 200px;
-    overflow-y: auto;
-    display: none;
-    text-align: left;
-    z-index: 1000; /* 👈 Asegura que aparezca encima de otros elementos */
-}
-
+        .suggestions {
+            position: absolute;
+            background: white;
+            color: black;
+            width: 100%;
+            border: 1px solid #ccc;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+            text-align: left;
+            z-index: 1000;
+        }
 
         input {
             width: 100%;
             padding: 10px;
             font-size: 16px;
         }
-
 
         .suggestions div {
             padding: 10px;
@@ -53,45 +51,40 @@
             color: white;
         }
 
-        .flag {
-            width: 20px;
-            height: 15px;
-            margin-right: 10px;
+        .player-img {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px; /* ✅ Ahora la imagen está a la izquierda */
+            border-radius: 50%;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2 id="titulo-jugador">Jugador 1, elige tu equipo</h2>
-    <input type="text" id="busqueda-equipo" placeholder="Escribe el nombre del equipo">
+    <h2 id="titulo-jugador">Jugador 1, elige un jugador actual</h2>
+    <input type="text" id="busqueda-jugador" placeholder="Escribe el nombre del jugador">
     <div id="sugerencias" class="suggestions"></div>
     <button id="btn-listo" disabled>Listo</button>
 </div>
 
-
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const inputBusqueda = document.getElementById("busqueda-equipo");
+    const inputBusqueda = document.getElementById("busqueda-jugador");
     const listaSugerencias = document.getElementById("sugerencias");
     const botonListo = document.getElementById("btn-listo");
     const tituloJugador = document.getElementById("titulo-jugador");
 
-    let equipoJugador1 = "";
-    let equipoJugador2 = "";
+    let jugador1 = "";
+    let jugador2 = "";
     let turnoJugador = 1; // 1 = Jugador 1, 2 = Jugador 2
 
     inputBusqueda.addEventListener("input", function() {
         let query = inputBusqueda.value.trim();
         
         if (query.length >= 2) {
-            fetch(`http://localhost:8080/api/buscarEquipos?nombre=${encodeURIComponent(query)}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`Error HTTP: ${response.status}`);
-                    }
-                    return response.json();
-                })
+            fetch(`http://localhost:8080/api/buscarJugadoresActuales?nombre=${encodeURIComponent(query)}`)
+                .then(response => response.json())
                 .then(data => {
                     listaSugerencias.innerHTML = "";
                     listaSugerencias.style.display = data.length > 0 ? "block" : "none";
@@ -101,32 +94,26 @@ document.addEventListener("DOMContentLoaded", function() {
                         return;
                     }
 
-                    data.forEach(equipo => {
+                    data.forEach(jugador => {
                         let div = document.createElement("div");
 
-                        // 📌 URL del escudo del equipo
-                        let escudoSrc = equipo.imagen 
-                            ? equipo.imagen  
-                            : "/uploads/equipos/default.jpg"; 
-
                         let img = document.createElement("img");
-                        img.src = escudoSrc;
-                        img.classList.add("escudo");
-                        img.style.width = "30px";
-                        img.style.height = "30px";
-                        img.style.marginRight = "10px";
+                        img.src = jugador.imagen ? jugador.imagen : "/uploads/jugadores/default.jpg"; 
+                        img.classList.add("player-img");
 
-                        // 🚨 Oculta imágenes rotas
+                        // ✅ Ocultar imagen si no carga
                         img.onerror = function() {
                             this.style.display = "none";
                         };
 
-                        div.appendChild(img);
-                        div.innerHTML += `<strong>${equipo.nombre}</strong>, ${equipo.pais || "Desconocido"}`;
+                        let texto = document.createElement("span");
+                        texto.innerHTML = `<strong>${jugador.nombre}</strong> (${jugador.posicion}), ${jugador.nacionalidad}`;
+
+                        div.appendChild(img); // ✅ Ahora la imagen está primero
+                        div.appendChild(texto);
 
                         div.addEventListener("click", function() {
-                            // ✅ Nombre y país en el input
-                            inputBusqueda.value = `${equipo.nombre}, ${equipo.pais}`;
+                            inputBusqueda.value = `${jugador.nombre} (${jugador.posicion}), ${jugador.nacionalidad}`;
                             listaSugerencias.style.display = "none";
                             botonListo.disabled = false;
                         });
@@ -135,8 +122,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     });
                 })
                 .catch(error => {
-                    console.error("❌ Error al buscar equipos:", error);
-                    listaSugerencias.innerHTML = `<div style="color: red;">Error al cargar equipos</div>`;
+                    console.error("❌ Error al buscar jugadores:", error);
+                    listaSugerencias.innerHTML = `<div style="color: red;">Error al cargar jugadores</div>`;
                     listaSugerencias.style.display = "block";
                 });
         } else {
@@ -147,22 +134,21 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // 📌 Lógica para cambiar de jugador y luego iniciar el juego
     botonListo.addEventListener("click", function() {
-        let equipoSeleccionado = inputBusqueda.value.trim();
+        let jugadorSeleccionado = inputBusqueda.value.trim();
         if (turnoJugador === 1) {
-            equipoJugador1 = equipoSeleccionado;
+            jugador1 = jugadorSeleccionado;
             turnoJugador = 2;
-            tituloJugador.innerText = "Jugador 2, elige tu equipo";
+            tituloJugador.innerText = "Jugador 2, elige un jugador actual";
             inputBusqueda.value = "";
             botonListo.disabled = true;
         } else {
-            equipoJugador2 = equipoSeleccionado;
+            jugador2 = jugadorSeleccionado;
 
-            // 📌 Ir a la vista de juego con los equipos seleccionados
-            window.location.href = `juego?equipo1=${encodeURIComponent(equipoJugador1)}&equipo2=${encodeURIComponent(equipoJugador2)}`;
+            // 📌 Ir a la vista de juego con los jugadores seleccionados
+            window.location.href = `juego.html?jugador1=${encodeURIComponent(jugador1)}&jugador2=${encodeURIComponent(jugador2)}`;
         }
     });
 
-    // Ocultar la lista cuando se haga clic fuera
     document.addEventListener("click", function(event) {
         if (!inputBusqueda.contains(event.target) && !listaSugerencias.contains(event.target)) {
             listaSugerencias.style.display = "none";

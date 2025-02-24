@@ -4,8 +4,9 @@ namespace App\Controllers;
 
 use App\Models\JugadorModel;
 use CodeIgniter\Controller;
+use CodeIgniter\RESTful\ResourceController;
 
-class JugadoresController extends BaseController
+class JugadoresController extends ResourceController
 {
     public function subirImagen()
     {
@@ -53,4 +54,71 @@ class JugadoresController extends BaseController
 
         return redirect()->back()->with('error', 'Error al subir la imagen.');
     }
+
+    public function retirados(){
+        return view('seleccion-jugadores1');
+    }
+
+    public function buscarJugadoresRetirados()
+    {
+        $nombre = $this->request->getGet('nombre');
+    
+        if (!$nombre) {
+            return $this->response->setJSON([]);
+        }
+    
+        $jugadorModel = new JugadorModel();
+        $resultados = $jugadorModel
+            ->select('nombre, nacionalidad, posicion, imagen')
+            ->where('estado', 'retirado') // ✅ Solo jugadores retirados
+            ->like('LOWER(nombre)', strtolower($nombre), 'both')
+            ->distinct()
+            ->findAll();
+    
+        foreach ($resultados as &$jugador) {
+            // ✅ Ruta corregida sin "public/"
+            if (!empty($jugador['imagen']) && file_exists(FCPATH . 'uploads/jugadores/' . $jugador['imagen'])) {
+                $jugador['imagen'] = base_url('uploads/jugadores/' . $jugador['imagen']);
+            } else {
+                $jugador['imagen'] = base_url('uploads/jugadores/default.jpg'); // ✅ Imagen por defecto
+            }
+        }
+    
+        return $this->response->setJSON($resultados);
+    }
+    
+
+
+    public function actuales(){
+        return view('seleccion-jugadores2');
+    }
+
+    public function buscarJugadoresActuales()
+{
+    $nombre = $this->request->getGet('nombre');
+
+    if (!$nombre) {
+        return $this->response->setJSON([]);
+    }
+
+    $jugadorModel = new JugadorModel();
+    $resultados = $jugadorModel
+        ->select('nombre, nacionalidad, posicion, imagen')
+        ->where('estado', 'actual') // ✅ Solo jugadores activos
+        ->like('LOWER(nombre)', strtolower($nombre), 'both')
+        ->distinct()
+        ->findAll();
+
+    foreach ($resultados as &$jugador) {
+        // ✅ Verifica si la imagen existe y genera la URL correcta
+        if (!empty($jugador['imagen']) && file_exists(FCPATH . 'uploads/jugadores/' . $jugador['imagen'])) {
+            $jugador['imagen'] = base_url('uploads/jugadores/' . $jugador['imagen']);
+        } else {
+            $jugador['imagen'] = base_url('uploads/jugadores/default.jpg'); // ✅ Imagen por defecto
+        }
+    }
+
+    return $this->response->setJSON($resultados);
+}
+
 }

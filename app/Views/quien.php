@@ -46,13 +46,13 @@
         <div class="game-option">
             <h3>Jugadores Retirados</h3>
             <img src="./img/diego.png" alt="Jugadores Retirados" class="game-image">
-            <button class="play-button">JUGAR</button>
+            <button class="play-button" onclick="window.location.href='<?= base_url('/seleccion-jugadores1') ?>'">JUGAR</button>
         </div>
 
         <div class="game-option">
             <h3>Jugadores Actuales</h3>
             <img src="./img/kevin.png" alt="Jugadores Actuales" class="game-image">
-            <button class="play-button">JUGAR</button>
+            <button class="play-button" onclick="window.location.href='<?= base_url('/seleccion-jugadores2') ?>'">JUGAR</button>
         </div>
     </div>
 </div>

@@ -45,7 +45,12 @@ $routes->get('equipos/subir', 'EquiposController::subirImagen');
 $routes->post('equipos/subir', 'EquiposController::subirImagen');
 $routes->post('jugadores/subir', 'JugadoresController::subirImagen');
 $routes->get('seleccion-equipos', 'EquiposController::vistaSeleccion');
+$routes->get('seleccion-jugadores1', 'JugadoresController::retirados');
+$routes->get('seleccion-jugadores2', 'JugadoresController::actuales');
 $routes->get('api/buscarEquipos', 'EquiposController::buscarEquipos');
+$routes->get('api/buscarJugadoresRetirados', 'JugadoresController::buscarJugadoresRetirados');
+$routes->get('api/buscarJugadoresActuales', 'JugadoresController::buscarJugadoresActuales');
+
 $routes->options('(:any)', function() {
     return service('response')
         ->setHeader('Access-Control-Allow-Origin', '*')
