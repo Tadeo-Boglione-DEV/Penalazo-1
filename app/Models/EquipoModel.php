@@ -8,6 +8,6 @@ class EquipoModel extends Model
 {
     protected $table = 'equipos';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['nombre', 'pais', 'liga', 'imagen'];
+    protected $allowedFields = ['nombre', 'pais', 'liga'];
 }
 

@@ -1,0 +1,66 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #000;
+    background-image: url('../img/neuer.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    margin-bottom: 20px;
+    text-align: left;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+form h2 {
+    font-size: 24px;
+    color: #000;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+input[type="text"],
+input[type="date"],
+select {
+    width: 93%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #00bcd4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 12px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0097a7;
+}
+
+label {
+    color: #000;
+    font-size: 14px;
+}

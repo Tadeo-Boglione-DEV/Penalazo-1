@@ -13,76 +13,48 @@ class EquiposController extends ResourceController
     return view('seleccion-equipos');
 }
 
-    public function subirImagen()
+public function subirImagen()
     {
         $equipoModel = new EquipoModel();
-        $file = $this->request->getFile('imagen');
 
         // Verificar si el equipo ya existe
         $nombreEquipo = $this->request->getPost('nombre');
-        $equipoExistente = $equipoModel->where('nombre', $nombreEquipo)->first(); // Verifica si el equipo ya está registrado
+        $equipoExistente = $equipoModel->where('nombre', $nombreEquipo)->first();
 
         if ($equipoExistente) {
             return redirect()->back()->with('error', 'El equipo ya está registrado en la base de datos.');
         }
 
-        // Verificar si se recibió una imagen
-        if (!$file) {
-            return redirect()->back()->with('error', 'No se recibió ninguna imagen.');
-        }
+        // Insertar el equipo en la base de datos
+        $data = [
+            'nombre' => $this->request->getPost('nombre'),
+            'pais' => $this->request->getPost('pais'),
+            'liga' => $this->request->getPost('liga')
+        ];
 
-        // Subir imagen si es válida
-        if ($file->isValid() && !$file->hasMoved()) {
-            $nombreArchivo = $file->getRandomName();
-            $file->move(FCPATH . 'uploads/equipos', $nombreArchivo);
+        $equipoModel->insert($data);
 
-            // Verificar si la imagen se movió correctamente
-            if (!$file->hasMoved()) {
-                return redirect()->back()->with('error', 'Error al mover la imagen.');
-            }
-
-            // Insertar el equipo en la base de datos
-            $data = [
-                'nombre' => $this->request->getPost('nombre'),
-                'pais' => $this->request->getPost('pais'),
-                'liga' => $this->request->getPost('liga'),
-                'imagen' => $nombreArchivo
-            ];
-
-            if ($equipoModel->insert($data)) {
-                return redirect()->to('/subir')->with('success', 'Equipo agregado correctamente.');
-            } else {
-                return redirect()->to('/subir')->with('error', 'Error al guardar el equipo en la base de datos.');
-            }
-        }
-        return redirect()->back()->with('error', 'Error al subir la imagen.');
+        return redirect()->to('/subir')->with('success', 'Equipo agregado correctamente.');
     }
 
     public function buscarEquipos()
-    {
-        $nombre = $this->request->getGet('nombre');
-    
-        if (!$nombre) {
-            return $this->response->setJSON([]);
-        }
-    
-        $equipoModel = new EquipoModel();
-        $resultados = $equipoModel
-            ->select('nombre, pais, imagen') // 👈 Asegúrate de incluir 'pais'
-            ->like('LOWER(nombre)', strtolower($nombre), 'both')
-            ->distinct()
-            ->findAll();
-    
-        foreach ($resultados as &$equipo) {
-            if (!empty($equipo['imagen']) && file_exists(FCPATH . 'uploads/equipos/' . $equipo['imagen'])) {
-                $equipo['imagen'] = base_url('uploads/equipos/' . $equipo['imagen']);
-            } else {
-                $equipo['imagen'] = base_url('uploads/equipos/default.jpg');
-            }
-        }
-    
-        return $this->response->setJSON($resultados);
+{
+    $nombre = $this->request->getGet('nombre');
+
+    if (!$nombre) {
+        return $this->response->setJSON([]);
     }
+
+    $equipoModel = new EquipoModel();
+    $resultados = $equipoModel
+        ->select('nombre, pais') // Eliminado el campo imagen
+        ->like('LOWER(nombre)', strtolower($nombre), 'both')
+        ->distinct()
+        ->findAll();
+
+    return $this->response->setJSON($resultados);
+}
+
 
     
     public function juego(){

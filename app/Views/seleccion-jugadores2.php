@@ -3,66 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/inicio.css">
+    <link rel="stylesheet" href="./css/seleccion-j2.css">
+    <link rel="shortcut icon" href="./img/logo.png">
     <title>Selección de Jugadores Actuales</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #121212;
-            color: white;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 400px;
-            margin: auto;
-            position: relative;
-        }
-
-        .suggestions {
-            position: absolute;
-            background: white;
-            color: black;
-            width: 100%;
-            border: 1px solid #ccc;
-            max-height: 200px;
-            overflow-y: auto;
-            display: none;
-            text-align: left;
-            z-index: 1000;
-        }
-
-        input {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-        }
-
-        .suggestions div {
-            padding: 10px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .suggestions div:hover {
-            background: #007BFF;
-            color: white;
-        }
-
-        .player-img {
-            width: 30px;
-            height: 30px;
-            margin-right: 10px; /* ✅ Ahora la imagen está a la izquierda */
-            border-radius: 50%;
-        }
-    </style>
 </head>
 <body>
 
+<?= view('Includes/Header') ?>
+
 <div class="container">
-    <h2 id="titulo-jugador">Jugador 1, elige un jugador actual</h2>
+    <h2 id="titulo-jugador">Jugador 1, eliga su jugador actual</h2>
     <input type="text" id="busqueda-jugador" placeholder="Escribe el nombre del jugador">
     <div id="sugerencias" class="suggestions"></div>
     <button id="btn-listo" disabled>Listo</button>
@@ -96,28 +47,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
                     data.forEach(jugador => {
                         let div = document.createElement("div");
-
-                        let img = document.createElement("img");
-                        img.src = jugador.imagen ? jugador.imagen : "/uploads/jugadores/default.jpg"; 
-                        img.classList.add("player-img");
-
-                        // ✅ Ocultar imagen si no carga
-                        img.onerror = function() {
-                            this.style.display = "none";
-                        };
-
-                        let texto = document.createElement("span");
-                        texto.innerHTML = `<strong>${jugador.nombre}</strong> (${jugador.posicion}), ${jugador.nacionalidad}`;
-
-                        div.appendChild(img); // ✅ Ahora la imagen está primero
-                        div.appendChild(texto);
-
+                        div.innerHTML = `<strong>${jugador.nombre}</strong> (${jugador.posicion}), ${jugador.nacionalidad}, ${jugador.fecha_de_nacimiento}`;
                         div.addEventListener("click", function() {
-                            inputBusqueda.value = `${jugador.nombre} (${jugador.posicion}), ${jugador.nacionalidad}`;
+                            inputBusqueda.value = `${jugador.nombre} (${jugador.posicion}), ${jugador.nacionalidad}, ${jugador.fecha_de_nacimiento}`;
                             listaSugerencias.style.display = "none";
                             botonListo.disabled = false;
                         });
-
                         listaSugerencias.appendChild(div);
                     });
                 })
@@ -138,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (turnoJugador === 1) {
             jugador1 = jugadorSeleccionado;
             turnoJugador = 2;
-            tituloJugador.innerText = "Jugador 2, elige un jugador actual";
+            tituloJugador.innerText = "Jugador 2, eliga su jugador actual";
             inputBusqueda.value = "";
             botonListo.disabled = true;
         } else {
@@ -156,6 +91,16 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 </script>
+
+<script>
+        function toggleLogo(element) {
+            const img = element.querySelector('.logo-img');
+            element.classList.toggle('flipped');
+            setTimeout(() => {
+                img.src = element.classList.contains('flipped') ? './img/logo2.png' : './img/logo.png';
+            }, 250);
+        }
+    </script>
 
 </body>
 </html>
