@@ -67,25 +67,26 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    botonListo.addEventListener("click", function() {
-        let equipoSeleccionado = inputBusqueda.value.trim();
-        if (turnoJugador === 1) {
-            equipoJugador1 = equipoSeleccionado;
-            turnoJugador = 2;
-            tituloJugador.innerText = "Jugador 2, eliga su equipo";
-            inputBusqueda.value = "";
-            botonListo.disabled = true;
-        } else {
-            equipoJugador2 = equipoSeleccionado;
-            window.location.href = `juego?equipo1=${encodeURIComponent(equipoJugador1)}&equipo2=${encodeURIComponent(equipoJugador2)}`;
-        }
-    });
+// 📌 Al hacer clic en "Listo" del segundo jugador
+botonListo.addEventListener("click", function() {
+    if (turnoJugador === 1) {
+        equipoJugador1 = inputBusqueda.value.trim();
+        turnoJugador = 2;
+        tituloJugador.innerText = "Jugador 2, elige su equipo";
+        inputBusqueda.value = "";
+        botonListo.disabled = true;
+    } else {
+        equipoJugador2 = inputBusqueda.value.trim();
+        
+        // ✅ Guardar los equipos en sessionStorage en lugar de la URL
+        sessionStorage.setItem("equipo1", equipoJugador1);
+        sessionStorage.setItem("equipo2", equipoJugador2);
+        
+        // ✅ Redirigir sin información en la URL
+        window.location.href = "juego";
+    }
+});
 
-    document.addEventListener("click", function(event) {
-        if (!inputBusqueda.contains(event.target) && !listaSugerencias.contains(event.target)) {
-            listaSugerencias.style.display = "none";
-        }
-    });
 });
 </script>
 
