@@ -54,9 +54,7 @@ public function subirImagen()
 
     return $this->response->setJSON($resultados);
 }
-
-
-    
+   
     public function juego(){
         return view('juego');
     }
